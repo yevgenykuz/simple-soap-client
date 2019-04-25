@@ -1,0 +1,6 @@
+# IDE
+.idea/
+*.iml
+
+# Java compiled files
+target/
