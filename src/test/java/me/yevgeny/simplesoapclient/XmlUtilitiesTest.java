@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class XmlUtilitiesTest {
 
@@ -33,51 +34,92 @@ class XmlUtilitiesTest {
     }
 
     @Test
-    void xmlDocumentToStringDoNotOmitXmlDeclaration()
-            throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    void xmlDocumentToStringDoNotOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
+            TransformerException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         String actual = XmlUtilities.xmlDocumentToString(document, false);
         assertEquals(testXml, actual);
     }
 
     @Test
-    void xmlDocumentToStringOmitXmlDeclaration()
-            throws IOException, SAXException, ParserConfigurationException, TransformerException {
+    void xmlDocumentToStringOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
+            TransformerException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         String actual = XmlUtilities.xmlDocumentToString(document, true);
         assertEquals(testXml.substring(testXml.indexOf('\n') + 1), actual);
     }
 
     @Test
-    void getTextContentOfXmlElementByFullXpath()
-            throws IOException, SAXException, ParserConfigurationException, XPathExpressionException,
-                   XmlParsingException {
+    void getTextContentOfXmlElementByFullXpath() throws IOException, SAXException, ParserConfigurationException,
+            XPathExpressionException, XmlParsingException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         String actual = XmlUtilities.getTextContentOfXmlElement(document, "//zoo/duck/age");
         assertEquals("3", actual);
     }
 
     @Test
-    void getTextContentOfXmlElementByTagName()
-            throws IOException, SAXException, ParserConfigurationException, XPathExpressionException,
-                   XmlParsingException {
+    void getTextContentOfXmlElementByTagName() throws IOException, SAXException, ParserConfigurationException,
+            XPathExpressionException, XmlParsingException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         String actual = XmlUtilities.getTextContentOfXmlElement(document, "age");
         assertEquals("3", actual);
     }
 
     @Test
+    void getTextContentOfXmlElementNegativeEmptyPath() throws IOException, SAXException, ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.getTextContentOfXmlElement(document, ""));
+        assertEquals("Path to field parameter was not set correctly", xmlParsingException.getMessage());
+    }
+
+    @Test
+    void getTextContentOfXmlElementNegativeInvalidPath() throws IOException, SAXException,
+            ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.getTextContentOfXmlElement(document, "\\\\"));
+        assertEquals("Couldn't find node named \"\\\\\"", xmlParsingException.getMessage());
+    }
+
+    @Test
+    void getTextContentOfXmlElementNegativeNoTextContentAtPath() throws IOException, SAXException,
+            ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.getTextContentOfXmlElement(document, "size"));
+        assertEquals("No text content was found at \"size\"", xmlParsingException.getMessage());
+    }
+
+    @Test
     void findXmlNodeByXPath() throws IOException, SAXException, ParserConfigurationException, XPathExpressionException,
-                                     XmlParsingException {
+            XmlParsingException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         Node actual = XmlUtilities.findXmlNodeByXPath(document, "//zoo/duck/age");
         assertEquals("3", actual.getTextContent());
     }
 
     @Test
+    void findXmlNodeByXPathNegativeNoNodeAtPath() throws IOException, SAXException, ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.findXmlNodeByXPath(document, "//zoo/duck/gender"));
+        assertEquals("Couldn't find node in the following path: \"//zoo/duck/gender\"",
+                xmlParsingException.getMessage());
+    }
+
+    @Test
     void findXmlNodeByName() throws IOException, SAXException, ParserConfigurationException, XmlParsingException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
-        Node actual = XmlUtilities.findXmlNodeByName(document.getChildNodes(), "age");
+        Node actual = XmlUtilities.findXmlNodeByName(document, "age");
         assertEquals("3", actual.getTextContent());
+    }
+
+    @Test
+    void findXmlNodeByNameNegativeNoNodeWithGivenName() throws IOException, SAXException, ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.findXmlNodeByName(document, "gender"));
+        assertEquals("Couldn't find node named \"gender\"", xmlParsingException.getMessage());
     }
 }

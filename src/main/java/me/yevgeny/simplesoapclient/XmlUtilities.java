@@ -26,7 +26,7 @@ import java.io.StringWriter;
 /**
  * {@code XmlUtilities} provides basic XML parsing utility functions to print and parse XML {@code Document} or string.
  */
-public class XmlUtilities {
+public final class XmlUtilities {
 
     /**
      * Convert XML string to XML {@code Document}.
@@ -43,8 +43,8 @@ public class XmlUtilities {
      * @throws SAXException
      *         If XML parsing failed
      */
-    public static Document xmlStringToDocument(String xmlString)
-            throws ParserConfigurationException, IOException, SAXException {
+    public static Document xmlStringToDocument(String xmlString) throws ParserConfigurationException, IOException,
+            SAXException {
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = documentFactory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
@@ -94,8 +94,8 @@ public class XmlUtilities {
      * @throws XmlParsingException
      *         If the provided {@code path} doesn't point to an XML field
      */
-    public static String getTextContentOfXmlElement(Document document, final String path)
-            throws XPathExpressionException, XmlParsingException {
+    public static String getTextContentOfXmlElement(Document document, final String path) throws
+            XPathExpressionException, XmlParsingException {
         if (null == path || path.isEmpty()) {
             throw new XmlParsingException("Path to field parameter was not set correctly");
         }
@@ -107,12 +107,12 @@ public class XmlUtilities {
             try {
                 validationNode = findXmlNodeByXPath(document, "//" + path.trim());
             } catch (Exception e) { // XPath evaluation failed, try to find the node by manually traversing the document
-                validationNode = findXmlNodeByName(document.getChildNodes(), path.trim());
+                validationNode = findXmlNodeByName(document, path.trim());
             }
         }
 
         if (null == validationNode.getTextContent() || validationNode.getTextContent().isEmpty()) {
-            throw new XmlParsingException(String.format("No value was found at %s", path));
+            throw new XmlParsingException(String.format("No text content was found at \"%s\"", path));
         }
 
         return validationNode.getTextContent();
@@ -133,8 +133,8 @@ public class XmlUtilities {
      * @throws XmlParsingException
      *         If no node found in given {@code path}
      */
-    public static Node findXmlNodeByXPath(Document document, String path)
-            throws XPathExpressionException, XmlParsingException {
+    public static Node findXmlNodeByXPath(Document document, String path) throws XPathExpressionException,
+            XmlParsingException {
         XPath xpath = XPathFactory.newInstance().newXPath();
         Node node;
         node = (Node) xpath.compile(path).evaluate(document.getDocumentElement(), XPathConstants.NODE);
@@ -147,8 +147,8 @@ public class XmlUtilities {
     /**
      * Finds the <b>first</b> XML node that's named {@code nodeName} and returns it.
      *
-     * @param nodeList
-     *         The nodes to traverse
+     * @param document
+     *         The document to traverse
      * @param nodeName
      *         The node name to find
      *
@@ -157,8 +157,8 @@ public class XmlUtilities {
      * @throws XmlParsingException
      *         If no node found in with given {@code nodeName}
      */
-    public static Node findXmlNodeByName(NodeList nodeList, String nodeName) throws XmlParsingException {
-        Node node = findChildNode(nodeList, nodeName);
+    public static Node findXmlNodeByName(Document document, String nodeName) throws XmlParsingException {
+        Node node = findChildNode(document.getChildNodes(), nodeName);
         if (null == node) {
             throw new XmlParsingException(String.format("Couldn't find node named \"%s\"", nodeName));
         }
@@ -191,5 +191,9 @@ public class XmlUtilities {
         }
 
         return null;
+    }
+
+    private XmlUtilities() {
+        throw new AssertionError();
     }
 }

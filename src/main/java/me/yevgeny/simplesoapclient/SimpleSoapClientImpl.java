@@ -41,7 +41,7 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
      *         WS operation as represented in WSDL - "Add" for example
      */
     public SimpleSoapClientImpl(String serviceUrl, String namespaceUri, String wsOperation) {
-        this.urlString = (String.format("%s.asmx?op=%s", serviceUrl, wsOperation));
+        this.urlString = serviceUrl;
         this.namespaceUri = namespaceUri;
         this.wsOperation = wsOperation;
     }
@@ -51,7 +51,6 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
         openConnection();
 
         OutputStream requestStream = connection.getOutputStream();
-        InputStream errorStream = connection.getErrorStream();
         requestStream.write(Files.readAllBytes(requestXml.toPath()));
         requestStream.flush();
         requestStream.close();
@@ -59,6 +58,7 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
         String responseMessage = connection.getResponseMessage();
         if (!responseMessage.equals("OK")) {
             String errorString = String.format("HTTP response was \"%s\"", responseMessage);
+            InputStream errorStream = connection.getErrorStream();
             if (null != errorStream) {
                 errorString += String.format(". Server returned:\n\"%s\"", new BufferedReader(
                         new InputStreamReader(errorStream)).lines().collect(Collectors.joining("\n")));
@@ -82,14 +82,14 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
         }
 
         if (namespaceUri.isEmpty()) {
-            throw new SimpleSoapClientException("Namespace URI is required to open an HTTP connection");
+            throw new SimpleSoapClientException("Namespace URI is required to send SOAP requests");
         }
 
         if (wsOperation.isEmpty()) {
             throw new SimpleSoapClientException("WS operation is required to open an HTTP connection");
         }
 
-        URL url = new URL(urlString);
+        URL url = new URL(String.format("%s.asmx?op=%s", urlString, wsOperation));
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");

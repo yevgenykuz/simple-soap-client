@@ -4,5 +4,6 @@
     <duck>
         <name>Roger</name>
         <age>3</age>
+        <size/>
     </duck>
 </zoo>
