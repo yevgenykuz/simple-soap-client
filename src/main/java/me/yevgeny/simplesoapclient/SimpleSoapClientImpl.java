@@ -59,7 +59,7 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
         if (!responseMessage.equals("OK")) {
             String errorString = String.format("HTTP response was \"%s\"", responseMessage);
             InputStream errorStream = connection.getErrorStream();
-            if (null != errorStream) {
+            if (errorStream != null) {
                 errorString += String.format(". Server returned:\n\"%s\"", new BufferedReader(
                         new InputStreamReader(errorStream)).lines().collect(Collectors.joining("\n")));
             }

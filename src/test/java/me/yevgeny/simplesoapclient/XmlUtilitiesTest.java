@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -74,12 +76,29 @@ class XmlUtilitiesTest {
     }
 
     @Test
+    void getTextContentOfXmlElementNegativeNullPath() throws IOException, SAXException, ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.getTextContentOfXmlElement(document, null));
+        assertEquals("Path to field parameter was not set correctly", xmlParsingException.getMessage());
+    }
+
+    @Test
     void getTextContentOfXmlElementNegativeInvalidPath() throws IOException, SAXException,
             ParserConfigurationException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
         XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
                 () -> XmlUtilities.getTextContentOfXmlElement(document, "\\\\"));
         assertEquals("Couldn't find node named \"\\\\\"", xmlParsingException.getMessage());
+    }
+
+    @Test
+    void getTextContentOfXmlElementNegativeInvalidElement() throws IOException, SAXException,
+            ParserConfigurationException {
+        Document document = XmlUtilities.xmlStringToDocument(testXml);
+        XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
+                () -> XmlUtilities.getTextContentOfXmlElement(document, "//zoo/.."));
+        assertEquals("No text content was found at \"//zoo/..\"", xmlParsingException.getMessage());
     }
 
     @Test
@@ -121,5 +140,12 @@ class XmlUtilitiesTest {
         XmlParsingException xmlParsingException = assertThrows(XmlParsingException.class,
                 () -> XmlUtilities.findXmlNodeByName(document, "gender"));
         assertEquals("Couldn't find node named \"gender\"", xmlParsingException.getMessage());
+    }
+
+    @Test
+    void xmlUtilitiesConstructorAccessNegative() throws NoSuchMethodException {
+        Constructor<XmlUtilities> declaredConstructor = XmlUtilities.class.getDeclaredConstructor();
+        declaredConstructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, declaredConstructor::newInstance);
     }
 }

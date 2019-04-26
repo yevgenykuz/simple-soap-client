@@ -110,12 +110,12 @@ public final class XmlUtilities {
                 validationNode = findXmlNodeByName(document, path.trim());
             }
         }
-
-        if (null == validationNode.getTextContent() || validationNode.getTextContent().isEmpty()) {
+        String textContent = validationNode.getTextContent();
+        if (null == textContent || textContent.isEmpty()) {
             throw new XmlParsingException(String.format("No text content was found at \"%s\"", path));
         }
 
-        return validationNode.getTextContent();
+        return textContent;
     }
 
     /**
