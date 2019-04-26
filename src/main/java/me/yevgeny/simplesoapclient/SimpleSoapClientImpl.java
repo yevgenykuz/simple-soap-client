@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -59,10 +60,9 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
         if (!responseMessage.equals("OK")) {
             String errorString = String.format("HTTP response was \"%s\"", responseMessage);
             InputStream errorStream = connection.getErrorStream();
-            if (errorStream != null) {
-                errorString += String.format(". Server returned:\n\"%s\"", new BufferedReader(
-                        new InputStreamReader(errorStream)).lines().collect(Collectors.joining("\n")));
-            }
+            Scanner errorStreamScanner = new Scanner(errorStream).useDelimiter("\\A");
+            errorString += String.format(". Server returned:\n\"%s\"",
+                    errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
             throw new SimpleSoapClientException(errorString);
         }
 

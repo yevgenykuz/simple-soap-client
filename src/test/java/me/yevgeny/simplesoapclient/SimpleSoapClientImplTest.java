@@ -32,9 +32,9 @@ class SimpleSoapClientImplTest {
     void sendSoapRequestNegativeInternalServerError() {
         SimpleSoapClient client = new SimpleSoapClientImpl("http://www.dneonline.com/calculator", "http://tempuri.org",
                 "Add1");
-        SimpleSoapClientException simpleSoapClienException = assertThrows(SimpleSoapClientException.class,
+        SimpleSoapClientException simpleSoapClientException = assertThrows(SimpleSoapClientException.class,
                 () -> client.sendSoapRequest(new File("src/test/resources/requestExample.xml")));
-        assertTrue(simpleSoapClienException.getMessage()
+        assertTrue(simpleSoapClientException.getMessage()
                 .contains("HTTP response was \"Internal Server Error\". Server returned:"));
     }
 
