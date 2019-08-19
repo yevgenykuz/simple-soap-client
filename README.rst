@@ -14,8 +14,8 @@ Simple, lightweight SOAP client implemented in Java.
 Features
 ========
 
-* **Send SOAP requests**  - Sends a SOAP request XML and returns the response as string
-* **Basic XML utilities**  - Basic XML parsing included to parse the response and extract values
+* **Send SOAP requests** - Sends a SOAP request XML and returns the response as string
+* **Basic XML utilities** - Basic XML parsing included to parse the response and extract values
 * **Simple and lightweight** - No dependencies needed, uses Java's HttpURLConnection to handle HTTP, and org.w3c.dom, org.xml.sax and javax.xml packages to handle XML parsing
 
 Usage
