@@ -3,7 +3,7 @@ Simple SOAP client
 
 Simple, lightweight SOAP client implemented in Java.
 
-|travis_ci| |codecov|
+|travis_ci| |codecov| |CodeQL|
 
 -----
 
@@ -55,6 +55,10 @@ License
 .. |travis_ci| image:: https://travis-ci.org/yevgenykuz/simple-soap-client.svg?branch=master
     :target: https://travis-ci.org/yevgenykuz/simple-soap-client
     :alt: Travis CI
+    
+.. |CodeQL| image:: https://github.com/yevgenykuz/simple-soap-client/workflows/CodeQL/badge.svg
+    :target: https://github.com/yevgenykuz/simple-soap-client/actions?query=workflow%3ACodeQL
+    :alt: CodeQL
 
 .. |codecov| image:: https://codecov.io/gh/yevgenykuz/simple-soap-client/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/yevgenykuz/simple-soap-client/branch/master
