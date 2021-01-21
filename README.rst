@@ -3,7 +3,7 @@ Simple SOAP client
 
 Simple, lightweight SOAP client implemented in Java.
 
-|travis_ci| |codecov| |CodeQL|
+|ci| |codecov| |CodeQL|
 
 -----
 
@@ -16,7 +16,8 @@ Features
 
 * **Send SOAP requests** - Sends a SOAP request XML and returns the response as string
 * **Basic XML utilities** - Basic XML parsing included to parse the response and extract values
-* **Simple and lightweight** - No dependencies needed, uses Java's HttpURLConnection to handle HTTP, and org.w3c.dom, org.xml.sax and javax.xml packages to handle XML parsing
+* **Simple and lightweight** - No dependencies needed, uses Java's HttpURLConnection to handle HTTP, and org.w3c.dom,
+org.xml.sax and javax.xml packages to handle XML parsing
 
 Usage
 =====
@@ -52,14 +53,14 @@ License
 -----
 
 
-.. |travis_ci| image:: https://travis-ci.org/yevgenykuz/simple-soap-client.svg?branch=master
-    :target: https://travis-ci.org/yevgenykuz/simple-soap-client
-    :alt: Travis CI
-    
-.. |CodeQL| image:: https://github.com/yevgenykuz/simple-soap-client/workflows/CodeQL/badge.svg
-    :target: https://github.com/yevgenykuz/simple-soap-client/actions?query=workflow%3ACodeQL
-    :alt: CodeQL
+.. |ci| image:: https://github.com/yevgenykuz/simple-soap-client/workflows/CI/badge.svg
+    :target: https://github.com/yevgenykuz/simple-soap-client/actions?query=workflow%3ACI
+    :alt: CI
 
 .. |codecov| image:: https://codecov.io/gh/yevgenykuz/simple-soap-client/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/yevgenykuz/simple-soap-client/branch/master
     :alt: Test coverage
+
+.. |CodeQL| image:: https://github.com/yevgenykuz/simple-soap-client/workflows/CodeQL/badge.svg
+    :target: https://github.com/yevgenykuz/simple-soap-client/actions?query=workflow%3ACodeQL
+    :alt: CodeQL
