@@ -42,7 +42,8 @@ class XmlUtilitiesTest {
     void xmlDocumentToStringDoNotOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
             TransformerException {
         Document document = XmlUtilities.xmlStringToDocument(testXmlWithDeclaration);
-        String actual = XmlUtilities.xmlDocumentToString(document, false).replaceAll("\\r\\n", "\n");
+        String actual =
+                XmlUtilities.xmlDocumentToString(document, false).replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
         assertEquals(testXmlWithDeclaration, actual);
     }
 
@@ -50,7 +51,8 @@ class XmlUtilitiesTest {
     void xmlDocumentToStringOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
             TransformerException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
-        String actual = XmlUtilities.xmlDocumentToString(document, true).replaceAll("\\r\\n", "\n");
+        String actual =
+                XmlUtilities.xmlDocumentToString(document, true).replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
         assertEquals(testXml, actual);
     }
 
