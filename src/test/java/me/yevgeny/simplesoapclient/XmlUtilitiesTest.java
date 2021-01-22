@@ -22,10 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class XmlUtilitiesTest {
 
     static private String testXml;
+    static private String testXmlWithDeclaration;
 
     @BeforeAll
     static void setUp() throws IOException {
         testXml = new String(Files.readAllBytes(Paths.get("src/test/resources/xmlExample.xml")));
+        testXmlWithDeclaration =
+                new String(Files.readAllBytes(Paths.get("src/test/resources/xmlExampleWithXmlDeclaration.xml")));
     }
 
     @Test
@@ -38,17 +41,17 @@ class XmlUtilitiesTest {
     @Test
     void xmlDocumentToStringDoNotOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
             TransformerException {
-        Document document = XmlUtilities.xmlStringToDocument(testXml);
-        String actual = XmlUtilities.xmlDocumentToString(document, false);
-        assertEquals(testXml, actual);
+        Document document = XmlUtilities.xmlStringToDocument(testXmlWithDeclaration);
+        String actual = XmlUtilities.xmlDocumentToString(document, false).replaceAll("\\r\\n", "\n");
+        assertEquals(testXmlWithDeclaration, actual);
     }
 
     @Test
     void xmlDocumentToStringOmitXmlDeclaration() throws IOException, SAXException, ParserConfigurationException,
             TransformerException {
         Document document = XmlUtilities.xmlStringToDocument(testXml);
-        String actual = XmlUtilities.xmlDocumentToString(document, true);
-        assertEquals(testXml.substring(testXml.indexOf('\n') + 1), actual);
+        String actual = XmlUtilities.xmlDocumentToString(document, true).replaceAll("\\r\\n", "\n");
+        assertEquals(testXml, actual);
     }
 
     @Test

@@ -8,9 +8,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * These tests use a free SOAP service found @http://www.dneonline.com/calculator.asmx.
@@ -41,25 +39,25 @@ class SimpleSoapClientImplTest {
     @Test
     void sendSoapRequestNegativeNoUrlString() {
         SimpleSoapClient client = new SimpleSoapClientImpl("", "http://tempuri.org", "Add");
-        SimpleSoapClientException simpleSoapClienException = assertThrows(SimpleSoapClientException.class,
+        SimpleSoapClientException simpleSoapClientException = assertThrows(SimpleSoapClientException.class,
                 () -> client.sendSoapRequest(new File("src/test/resources/requestExample.xml")));
-        assertEquals("URL is required to open an HTTP connection", simpleSoapClienException.getMessage());
+        assertEquals("URL is required to open an HTTP connection", simpleSoapClientException.getMessage());
     }
 
     @Test
     void sendSoapRequestNegativeNoNamespaceUriString() {
         SimpleSoapClient client = new SimpleSoapClientImpl("http://www.dneonline.com/calculator", "", "Add");
-        SimpleSoapClientException simpleSoapClienException = assertThrows(SimpleSoapClientException.class,
+        SimpleSoapClientException simpleSoapClientException = assertThrows(SimpleSoapClientException.class,
                 () -> client.sendSoapRequest(new File("src/test/resources/requestExample.xml")));
-        assertEquals("Namespace URI is required to send SOAP requests", simpleSoapClienException.getMessage());
+        assertEquals("Namespace URI is required to send SOAP requests", simpleSoapClientException.getMessage());
     }
 
     @Test
     void sendSoapRequestNegativeNoWsOperationString() {
         SimpleSoapClient client = new SimpleSoapClientImpl("http://www.dneonline.com/calculator", "http://tempuri.org",
                 "");
-        SimpleSoapClientException simpleSoapClienException = assertThrows(SimpleSoapClientException.class,
+        SimpleSoapClientException simpleSoapClientException = assertThrows(SimpleSoapClientException.class,
                 () -> client.sendSoapRequest(new File("src/test/resources/requestExample.xml")));
-        assertEquals("WS operation is required to open an HTTP connection", simpleSoapClienException.getMessage());
+        assertEquals("WS operation is required to open an HTTP connection", simpleSoapClientException.getMessage());
     }
 }

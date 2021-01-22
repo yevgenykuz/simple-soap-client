@@ -33,9 +33,7 @@ public final class XmlUtilities {
      *
      * @param xmlString
      *         The string that represent an XML message
-     *
      * @return The XML response as XML {@code Document}
-     *
      * @throws ParserConfigurationException
      *         If XML parser instantiation failed
      * @throws IOException
@@ -59,9 +57,7 @@ public final class XmlUtilities {
      *         An XML {@code Document}
      * @param omitXmlDeclaration
      *         if <b>true</b> - "<?xml version= ..." will be omitted
-     *
      * @return The string representing the XML {@code Document}
-     *
      * @throws TransformerException
      *         If {@code Document} transformation to string fails
      */
@@ -71,7 +67,6 @@ public final class XmlUtilities {
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, omitXmlDeclaration ? "yes" : "no");
         transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         StringWriter stringWriter = new StringWriter();
@@ -86,9 +81,7 @@ public final class XmlUtilities {
      *         A {@code path} ({@code XPath} format) to the required XML field, or the field name if path is unknown
      * @param document
      *         The document to traverse to find the relevant XML field
-     *
      * @return The value of an XML field
-     *
      * @throws XPathExpressionException
      *         If the provided {@code path} couldn't compile to an {@code XPath}
      * @throws XmlParsingException
@@ -99,7 +92,6 @@ public final class XmlUtilities {
         if (null == path || path.isEmpty()) {
             throw new XmlParsingException("Path to field parameter was not set correctly");
         }
-
         Node validationNode;
         if (path.contains("/")) {
             validationNode = findXmlNodeByXPath(document, path.trim());
@@ -114,7 +106,6 @@ public final class XmlUtilities {
         if (null == textContent || textContent.isEmpty()) {
             throw new XmlParsingException(String.format("No text content was found at \"%s\"", path));
         }
-
         return textContent;
     }
 
@@ -125,9 +116,7 @@ public final class XmlUtilities {
      *         The document to traverse
      * @param path
      *         The path of the wanted node, "//zoo/duck/age" for example
-     *
      * @return The <b>first</b> node named {@code nodeName}
-     *
      * @throws XPathExpressionException
      *         If path couldn't compile
      * @throws XmlParsingException
@@ -151,9 +140,7 @@ public final class XmlUtilities {
      *         The document to traverse
      * @param nodeName
      *         The node name to find
-     *
      * @return The <b>first</b> node named {@code nodeName}
-     *
      * @throws XmlParsingException
      *         If no node found in with given {@code nodeName}
      */
@@ -172,7 +159,6 @@ public final class XmlUtilities {
      *         The nodes to traverse
      * @param nodeName
      *         The node name to find
-     *
      * @return The <b>first</b> node named {@code nodeName} or <b>null</b> if none found
      */
     private static Node findChildNode(NodeList nodeList, String nodeName) {
@@ -189,7 +175,6 @@ public final class XmlUtilities {
                 }
             }
         }
-
         return null;
     }
 
