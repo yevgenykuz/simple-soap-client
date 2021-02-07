@@ -1,4 +1,4 @@
-package me.yevgeny.simplesoapclient;
+package com.yevgenyk.simplesoapclient;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

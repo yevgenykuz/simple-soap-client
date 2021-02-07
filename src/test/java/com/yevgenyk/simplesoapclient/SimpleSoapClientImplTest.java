@@ -1,4 +1,4 @@
-package me.yevgeny.simplesoapclient;
+package com.yevgenyk.simplesoapclient;
 
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;

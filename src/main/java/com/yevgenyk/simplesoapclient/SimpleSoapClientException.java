@@ -1,4 +1,4 @@
-package me.yevgeny.simplesoapclient;
+package com.yevgenyk.simplesoapclient;
 
 /**
  * {@code SimpleSoapClientException} is used to indicate an exception in {@code SimpleSoapClient}.

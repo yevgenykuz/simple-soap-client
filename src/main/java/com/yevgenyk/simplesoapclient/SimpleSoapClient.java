@@ -1,4 +1,4 @@
-package me.yevgeny.simplesoapclient;
+package com.yevgenyk.simplesoapclient;
 
 import java.io.File;
 import java.io.IOException;

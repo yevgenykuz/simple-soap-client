@@ -1,4 +1,4 @@
-package me.yevgeny.simplesoapclient;
+package com.yevgenyk.simplesoapclient;
 
 /**
  * {@code XmlParsingException} is used to indicate an exception in {@code XmlUtilities} methods.
