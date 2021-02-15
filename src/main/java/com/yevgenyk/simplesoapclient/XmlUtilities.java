@@ -56,7 +56,7 @@ public final class XmlUtilities {
      * @param doc
      *         An XML {@code Document}
      * @param omitXmlDeclaration
-     *         if <b>true</b> - "<?xml version= ..." will be omitted
+     *         if <b>true</b> - "xml version= ..." declaration will be omitted
      * @return The string representing the XML {@code Document}
      * @throws TransformerException
      *         If {@code Document} transformation to string fails
