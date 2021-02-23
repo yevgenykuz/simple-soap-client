@@ -3,7 +3,7 @@ Simple SOAP client
 
 Simple, lightweight SOAP client implemented in Java.
 
-|ci| |codecov| |CodeQL|
+|mc| |ci| |codecov| |CodeQL|
 
 -----
 
@@ -51,6 +51,9 @@ License
 
 -----
 
+.. |mc| image:: https://img.shields.io/maven-central/v/com.yevgenyk.simplesoapclient/simple-soap-client.svg?label=Maven%20Central
+    :target: https://search.maven.org/search?q=g:%22com.yevgenyk.simplesoapclient%22%20AND%20a:%22simple-soap-client%22
+    :alt: Maven Central
 
 .. |ci| image:: https://github.com/yevgenykuz/simple-soap-client/workflows/CI/badge.svg
     :target: https://github.com/yevgenykuz/simple-soap-client/actions?query=workflow%3ACI
