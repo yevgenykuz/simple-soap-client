@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
  */
 public class SimpleSoapClientImpl implements SimpleSoapClient {
 
-    private String urlString;
-    private String namespaceUri;
-    private String wsOperation;
+    private final String urlString;
+    private final String namespaceUri;
+    private final String wsOperation;
     private HttpURLConnection connection;
 
     /**
@@ -40,11 +40,15 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
      *         Namespace URI for XML mapping as represented in WSDL - "http://tempuri.org" for example
      * @param wsOperation
      *         WS operation as represented in WSDL - "Add" for example
+     * @throws SimpleSoapClientException
+     *         If one of thr parameters is empty or null
      */
-    public SimpleSoapClientImpl(String serviceUrl, String namespaceUri, String wsOperation) {
+    public SimpleSoapClientImpl(String serviceUrl, String namespaceUri, String wsOperation)
+            throws SimpleSoapClientException {
         this.urlString = serviceUrl;
         this.namespaceUri = namespaceUri;
         this.wsOperation = wsOperation;
+        checkConnectionParameters();
     }
 
     @Override
@@ -81,14 +85,7 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
             throw new SimpleSoapClientException("URL is required to open an HTTP connection");
         }
 
-        if (namespaceUri.isEmpty()) {
-            throw new SimpleSoapClientException("Namespace URI is required to send SOAP requests");
-        }
-
-        if (wsOperation.isEmpty()) {
-            throw new SimpleSoapClientException("WS operation is required to open an HTTP connection");
-        }
-
+    private void openConnection() throws IOException {
         URL url = new URL(String.format("%s.asmx?op=%s", urlString, wsOperation));
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -99,5 +96,17 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
 
     private void closeConnection() {
         connection.disconnect();
+    }
+
+    private void checkConnectionParameters() throws SimpleSoapClientException {
+        if (urlString == null || urlString.isEmpty()) {
+            throw new SimpleSoapClientException("URL is required to open an HTTP connection");
+        }
+        if (namespaceUri == null || namespaceUri.isEmpty()) {
+            throw new SimpleSoapClientException("Namespace URI is required to send SOAP requests");
+        }
+        if (wsOperation == null || wsOperation.isEmpty()) {
+            throw new SimpleSoapClientException("WS operation is required to open an HTTP connection");
+        }
     }
 }
