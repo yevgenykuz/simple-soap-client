@@ -1,7 +1,6 @@
 package com.yevgenyk.simplesoapclient;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * The {@code SimpleSoapClient} interface represents a bare-minimum SOAP client object. The client must be able to send
@@ -14,14 +13,10 @@ public interface SimpleSoapClient {
      *
      * @param requestXml
      *         The .xml file that contains the SOAP request in XML format.
-     *
      * @return The .xml response as string
-     *
-     * @throws IOException
-     *         If {@code requestXml} file was not found
      * @throws SimpleSoapClientException
-     *         If one or more of the HTTP connection required arguments are missing, or If HTTP host returned any
-     *         response code that is not "OK"
+     *         If one or more of the HTTP connection required arguments are missing, if the connection failed or If the
+     *         SOAP response HTTP code is not "OK"
      */
-    String sendSoapRequest(File requestXml) throws IOException, SimpleSoapClientException;
+    String sendSoapRequest(File requestXml) throws SimpleSoapClientException;
 }
