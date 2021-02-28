@@ -111,4 +111,13 @@ class SimpleSoapClientImplTest {
                 () -> new SimpleSoapClientImpl("http://www.dneonline.com/calculator", "http://tempuri.org", ""));
         assertEquals("WS operation is required to open an HTTP connection", simpleSoapClientException.getMessage());
     }
+
+    @Test
+    void sendSoapRequestNegativeUnreachableServiceUrl() throws SimpleSoapClientException {
+        SimpleSoapClientImpl client =
+                new SimpleSoapClientImpl("http://0.0.0.0:8080/calculator", "http://tempuri.org", "Add");
+        SimpleSoapClientException simpleSoapClientException = assertThrows(SimpleSoapClientException.class,
+                () -> client.sendSoapRequest(new File("src/test/resources/requestExample.xml")));
+        assertEquals("Couldn't send SOAP request", simpleSoapClientException.getMessage());
+    }
 }

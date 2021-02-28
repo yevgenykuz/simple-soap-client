@@ -62,17 +62,13 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
                             errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
                     throw new SimpleSoapClientException(errorString);
                 }
-            } catch (IOException e) {
-                throw new SimpleSoapClientException("Couldn't send SOAP request", e);
             }
             try (InputStream responseStream = connection.getInputStream()) {
                 return new BufferedReader(new InputStreamReader(responseStream)).lines()
                         .collect(Collectors.joining(System.lineSeparator()));
-            } catch (IOException e) {
-                throw new SimpleSoapClientException("Couldn't get SOAP response", e);
             }
         } catch (IOException e) {
-            throw new SimpleSoapClientException("Couldn't open HTTP connection", e);
+            throw new SimpleSoapClientException("Couldn't send SOAP request", e);
         } finally {
             closeConnection();
         }
