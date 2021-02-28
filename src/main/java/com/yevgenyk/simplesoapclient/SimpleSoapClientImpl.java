@@ -1,11 +1,6 @@
 package com.yevgenyk.simplesoapclient;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -53,37 +48,29 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
 
     @Override
     public String sendSoapRequest(File requestXml) throws IOException, SimpleSoapClientException {
-        openConnection();
-
-        OutputStream requestStream = connection.getOutputStream();
-        requestStream.write(Files.readAllBytes(requestXml.toPath()));
-        requestStream.flush();
-        requestStream.close();
-
-        String responseMessage = connection.getResponseMessage();
-        if (!responseMessage.equals("OK")) {
-            String errorString = String.format("HTTP response was \"%s\"", responseMessage);
-            InputStream errorStream = connection.getErrorStream();
-            Scanner errorStreamScanner = new Scanner(errorStream).useDelimiter("\\A");
-            errorString += String.format(". Server returned:\n\"%s\"",
-                    errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
-            throw new SimpleSoapClientException(errorString);
+        try {
+            openConnection();
+            try (OutputStream requestStream = connection.getOutputStream()) {
+                requestStream.write(Files.readAllBytes(requestXml.toPath()));
+                requestStream.flush();
+                String responseMessage = connection.getResponseMessage();
+                if (!responseMessage.equals("OK")) {
+                    String errorString = String.format("HTTP response was \"%s\"", responseMessage);
+                    InputStream errorStream = connection.getErrorStream();
+                    Scanner errorStreamScanner = new Scanner(errorStream).useDelimiter("\\A");
+                    errorString += String.format(". Server returned:\n\"%s\"",
+                            errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
+                    throw new SimpleSoapClientException(errorString);
+                }
+            }
+            try (InputStream responseStream = connection.getInputStream()) {
+                return new BufferedReader(new InputStreamReader(responseStream)).lines()
+                        .collect(Collectors.joining(System.lineSeparator()));
+            }
+        } finally {
+            closeConnection();
         }
-
-        InputStream responseStream = connection.getInputStream();
-        String response = new BufferedReader(new InputStreamReader(responseStream)).lines().collect(
-                Collectors.joining(System.lineSeparator()));
-        requestStream.close();
-        closeConnection();
-
-        return response;
     }
-
-
-    private void openConnection() throws SimpleSoapClientException, IOException {
-        if (urlString.isEmpty()) {
-            throw new SimpleSoapClientException("URL is required to open an HTTP connection");
-        }
 
     private void openConnection() throws IOException {
         URL url = new URL(String.format("%s.asmx?op=%s", urlString, wsOperation));
@@ -95,7 +82,9 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
     }
 
     private void closeConnection() {
-        connection.disconnect();
+        if (connection != null) {
+            connection.disconnect();
+        }
     }
 
     private void checkConnectionParameters() throws SimpleSoapClientException {
