@@ -5,7 +5,7 @@
 
     <groupId>com.yevgenyk.simplesoapclient</groupId>
     <artifactId>simple-soap-client</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>Simple SOAP Client</name>
