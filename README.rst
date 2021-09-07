@@ -48,8 +48,8 @@ License
 
 `MIT License <https://github.com/yevgenykuz//simple-soap-client/blob/master/LICENSE>`_
 
-Release configuration
----------------------
+Release instructions
+--------------------
 
 To publish artifacts to central maven repository via Sonatype OSSRH, do the following:
 
@@ -102,6 +102,10 @@ To publish artifacts to central maven repository via Sonatype OSSRH, do the foll
         </profile>
       </profiles>
     </settings>
+
+* Remove ``-SNAPSHOT`` from version, commit and tag, and deploy with ``mvn -Possrh-release deploy``.
+* Bump version and add ``-SNAPSHOT``, commit and push.
+* Create a new release in github with the latest tag.
 
 -----
 
