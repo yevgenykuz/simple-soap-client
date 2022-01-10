@@ -12,7 +12,6 @@ import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
-import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -61,7 +60,7 @@ class SimpleSoapClientImplTest {
         stubFor(post("/calculator.asmx?op=Add1")
                 .willReturn(aResponse()
                         .withStatus(HTTP_INTERNAL_ERROR)
-                        .withHeader(CONTENT_TYPE, "text/xml; charset=utf-8")
+                        .withHeader("Content-Type", "text/xml; charset=utf-8")
                         .withBody("<?xml version=\"1.0\" encoding=\"utf-8\"?>" + System.lineSeparator() +
                                 "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
                                 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
