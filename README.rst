@@ -35,6 +35,11 @@ Usage
     String textContent = XmlUtilities.getTextContentOfXmlElement(XmlUtilities.xmlStringToDocument(response),
             "AddResult")
 
+Building
+========
+
+Use maven to build the project locally.
+
 Meta
 ====
 
