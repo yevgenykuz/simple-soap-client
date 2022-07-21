@@ -23,8 +23,7 @@ Here are the current labels:
 
 * **bug**: Something isn't working
 * **duplicate**: This issue or pull request already exists
-* **enhancement**: Minor tweak/addition to existing behavior
-* **feature**: New behavior, bigger than enhancement
+* **feature**: New behavior or a tweak/addition to existing behavior
 * **good first issue**: Good for newcomers
 * **help wanted**: Issue is up for grabs
 * **invalid**: There isn't enough information to make a verdict, or unrelated to this project
