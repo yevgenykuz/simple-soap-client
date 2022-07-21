@@ -31,6 +31,7 @@ Here are the current labels:
 * **question**: No need to modify code to address the issue, usually a usage problem
 * **repro-needed**: Some code to be able to reproduce and debug locally, otherwise there's not much to do
 * **reproducible**: Can easily reproduce, meaning enough information was provided
+* **stale**: Stale issues will be closed automatically
 * **wontfix**: Working as intended, or won't be fixed due to compatibility or other reasons
  
 [1]: https://github.com/yevgenykuz/simple-soap-client/blob/master/CODE_OF_CONDUCT.md
