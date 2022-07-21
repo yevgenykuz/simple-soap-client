@@ -3,7 +3,7 @@ Contributions of all types are welcome.
 Please follow the [code of conduct][1] in all your interactions with this project.
 
 ## Asking Questions
-Please check the [README][2] and the [wiki][3] if you have a question.  
+Please check the [README][2] if you have a question.  
 If you can't find an answer, please open an issue.
 
 ## Reporting Bugs
@@ -36,4 +36,3 @@ Here are the current labels:
  
 [1]: https://github.com/yevgenykuz/simple-soap-client/blob/master/CODE_OF_CONDUCT.md
 [2]: https://github.com/yevgenykuz/simple-soap-client/blob/master/README.rst
-[3]: https://github.com/yevgenykuz/simple-soap-client/wiki
