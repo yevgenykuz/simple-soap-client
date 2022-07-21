@@ -22,6 +22,7 @@ Issue labels will be assigned by the project maintainers.
 Here are the current labels:
 
 * **bug**: Something isn't working
+* **dependecies**: Pull requests that update a dependency file
 * **duplicate**: This issue or pull request already exists
 * **feature**: New behavior or a tweak/addition to existing behavior
 * **good first issue**: Good for newcomers
