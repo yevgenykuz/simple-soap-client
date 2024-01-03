@@ -1,21 +1,26 @@
 # Contributing
+
 Contributions of all types are welcome.
 Please follow the [code of conduct][1] in all your interactions with this project.
 
 ## Asking Questions
+
 Please check the [README][2] if you have a question.
 If you can't find an answer, please open an issue.
 
 ## Reporting Bugs
+
 Bugs can be reported by opening an issue.
 Please provide as much information as possible. Ideally, that would include a small sample project that reproduces the problem.
 
 ## Fixing Bugs, Adding Enhancements, Features and Documentation
+
 Code and documentation can be contributed by replying to an open issue to get it assigned to you, or by creating a new issue.
 **Please make sure you get a response from one of the maintainers before you start working.**
 You can find instructions on building the project in [README][2].
 
 ## Issue Labels
+
 Issue labels will be assigned by the project maintainers.
 Here are the current labels:
 
