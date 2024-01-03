@@ -1,6 +1,11 @@
 # IDE
 .idea/
 *.iml
+.vscode/
 
 # Java compiled files
 target/
+build/
+
+# OS
+.DS_Store
