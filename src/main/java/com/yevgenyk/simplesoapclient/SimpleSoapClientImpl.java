@@ -2,6 +2,7 @@ package com.yevgenyk.simplesoapclient;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Scanner;
@@ -57,9 +58,10 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
                 if (!responseMessage.equals("OK")) {
                     String errorString = String.format("HTTP response was \"%s\"", responseMessage);
                     InputStream errorStream = connection.getErrorStream();
-                    Scanner errorStreamScanner = new Scanner(errorStream).useDelimiter("\\A");
-                    errorString += String.format(". Server returned:\n\"%s\"",
-                            errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
+                    try (Scanner errorStreamScanner = new Scanner(errorStream).useDelimiter("\\A")) {
+                        errorString += String.format(". Server returned:\n\"%s\"",
+                                errorStreamScanner.hasNext() ? errorStreamScanner.next() : "");
+                    }
                     throw new SimpleSoapClientException(errorString);
                 }
             }
@@ -75,7 +77,7 @@ public class SimpleSoapClientImpl implements SimpleSoapClient {
     }
 
     private void openConnection() throws IOException {
-        URL url = new URL(String.format("%s.asmx?op=%s", urlString, wsOperation));
+        URL url = URI.create(String.format("%s.asmx?op=%s", urlString, wsOperation)).toURL();
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
